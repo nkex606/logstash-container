@@ -1,24 +1,25 @@
 #!/bin/bash
+set -x
 set -e
 
 # set custom elasticsearch endpoint
 if [ ! -z "$ES_HOST" ]; then
-    sed -i "s/hosts => \[\"your-es-host\"\]/hosts => \[\"$ES_HOST\"\]/g" /etc/logstash/logstash.conf
+   sed -i "s/hosts => \[\"es-host\"\]/hosts => \[\"$ES_HOST\"\]/g" /etc/logstash/logstash.conf
 fi
 
 # set custom s3 bucket
 if [ ! -z "$S3_BUCKET" ]; then
-  sed -i "s/bucket => \"bucketname\"/bucket => \"$S3_BUCKET\"/g" /etc/logstash/logstash.conf
+ sed -i "s/bucket => \"bucketname\"/bucket => \"$S3_BUCKET\"/g" /etc/logstash/logstash.conf
 fi
 
 # replace access key
-if [ ! -z "$AWS_ACCESS_KEY" ]; then
-  sed -i "s/s3accesskey/$AWS_ACCESS_KEY/g" /etc/logstash/logstash.conf
+if [ ! -z "$S3_ACCESS" ]; then
+  sed -i "s/access_key_id => \"s3-access-key\"/access_key_id => \"$S3_ACCESS\"/g" /etc/logstash/logstash.conf
 fi
 
 # replace secret key
-if [ ! -z "$AWS_SECRET_KEY" ]; then
-  sed -i "s/s3secretkey/$AWS_SECRET_KEY/g" /etc/logstash/logstash.conf
+if [ ! -z "$S3_SECRET" ]; then
+ sed -i "s/secret_access_key => \"s3-secret-key\"/secret_access_key => \"$S3_SECRET\"/g" /etc/logstash/logstash.conf
 fi
 
 # first arg is `-f` or `--some-option`
